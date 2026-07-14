@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tailwind to CSS</title>
+<meta name="description" content="Paste Tailwind utility classes and get the equivalent plain CSS. Covers common utilities with the default theme. Runs entirely in your browser, no external dependencies, works offline.">
+<link rel="canonical" href="https://0xelitesystem.github.io/tailwind-to-css/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tailwind to CSS">
+<meta property="og:description" content="Convert Tailwind utility classes to plain CSS in your browser. Covers common utilities with the default theme.">
+<meta property="og:url" content="https://0xelitesystem.github.io/tailwind-to-css/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Tailwind to CSS",
+  "description": "Paste Tailwind utility classes and get the equivalent plain CSS. Covers common utilities with the default theme. Runs entirely in your browser.",
+  "url": "https://0xelitesystem.github.io/tailwind-to-css/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Organization", "name": "0xelitesystem" }
+}
+</script>
+<style>
+:root {
+  --bg: #fafaf6;
+  --surface: #ffffff;
+  --ink: #0a1d1e;
+  --ink-soft: #2c4a4c;
+  --rule: #c8d4d3;
+  --teal: #0f5c60;
+  --teal-deep: #0a4548;
+  --gold: #b07d2a;
+  --gold-deep: #8a611f;
+  --ok: #1a5c2e;
+  --warn: #8a5a00;
+  --err: #8b1a1a;
+  --code-bg: #f0ebe1;
+}
+[data-theme="dark"] {
+  --bg: #0c1c1d;
+  --surface: #14292a;
+  --ink: #e8ebe6;
+  --ink-soft: #b0c0bd;
+  --rule: #2a4042;
+  --teal: #4ab4ba;
+  --teal-deep: #6dc8ce;
+  --gold: #d4a155;
+  --gold-deep: #e6b876;
+  --ok: #6dd380;
+  --warn: #d4a155;
+  --err: #e88080;
+  --code-bg: #0a1718;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  line-height: 1.55;
+}
+.wrap { max-width: 1100px; margin: 0 auto; }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid var(--teal);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--teal);
+}
+.tag {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.75rem;
+  color: var(--gold-deep);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+[data-theme="dark"] .tag { color: var(--gold); }
+.theme-btn {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.theme-btn:hover { border-color: var(--teal); color: var(--teal); }
+.lede {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.75rem;
+  max-width: 62ch;
+}
+.input-box {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 1.25rem;
+  margin-bottom: 1.75rem;
+  border-radius: 3px;
+}
+label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+textarea, input[type="text"] {
+  width: 100%;
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  padding: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  border-radius: 2px;
+}
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+textarea:focus, input:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
+.input-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+button {
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 2px;
+}
+button:hover { border-color: var(--teal); }
+button.primary {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--surface);
+  font-weight: 600;
+}
+[data-theme="dark"] button.primary { color: var(--bg) !important; }
+button.primary:hover { background: var(--teal-deep); border-color: var(--teal-deep); }
+.results { display: none; }
+.results.show { display: block; }
+.section {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 3px;
+}
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+.section-title { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.02em; }
+.copy-btn { font-size: 0.75rem; padding: 0.35rem 0.7rem; }
+.copy-btn.copied { border-color: var(--ok); color: var(--ok); }
+pre {
+  background: var(--code-bg);
+  padding: 0.85rem;
+  border-radius: 2px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--ink);
+}
+.unknown {
+  margin-top: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.8rem;
+  color: var(--warn);
+}
+.unknown code {
+  background: var(--code-bg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  margin-right: 0.35rem;
+  display: inline-block;
+}
+.error-msg {
+  color: var(--err);
+  font-size: 0.85rem;
+  margin-top: 0.85rem;
+  padding: 0.65rem;
+  background: var(--code-bg);
+  border-left: 3px solid var(--err);
+  border-radius: 2px;
+}
+.privacy-note {
+  font-size: 0.78rem;
+  color: var(--gold-deep);
+  margin-top: 0.5rem;
+}
+[data-theme="dark"] .privacy-note { color: var(--gold); }
+footer {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+footer a { color: var(--teal); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+@media (max-width: 640px) {
+  body { padding: 1rem 0.75rem; }
+  h1 { font-size: 1.4rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Tailwind to CSS</h1>
+    <div class="tag">Utility classes to plain CSS</div>
+  </div>
+  <button class="theme-btn" id="theme-toggle" type="button">Dark</button>
+</header>
+
+<p class="lede">Paste a string of Tailwind utility classes and get the equivalent plain CSS, grouped into a single rule. This covers a solid set of common utilities using the default theme values. It is not the whole framework and does not resolve plugins or custom config.</p>
+
+<div class="input-box">
+  <label for="tw-input">Tailwind classes</label>
+  <textarea id="tw-input" placeholder="flex items-center gap-4 p-6 bg-slate-800 text-white rounded-lg shadow-md" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+  <div class="input-row">
+    <button class="primary" id="convert-btn" type="button">Convert</button>
+    <button id="sample-btn" type="button">Load sample</button>
+    <button id="clear-btn" type="button">Clear</button>
+  </div>
+  <div class="privacy-note">Everything runs locally in your browser. No external dependencies, works offline.</div>
+</div>
+
+<div class="results" id="results">
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Generated CSS</div>
+      <button class="copy-btn" id="copy-btn" type="button">Copy</button>
+    </div>
+    <pre id="css-out"></pre>
+    <div class="unknown" id="unknown-box"></div>
+  </div>
+</div>
+
+<div id="error-box"></div>
+
+<footer>
+  <div>Tailwind to CSS. Open source, MIT licensed.</div>
+  <div>Built by <a href="https://elitesystem.ai" target="_blank" rel="noopener">elitesystem.ai</a></div>
+</footer>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+const themeBtn = $("theme-toggle");
+function setTheme(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  themeBtn.textContent = t === "dark" ? "Light" : "Dark";
+}
+themeBtn.addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme") || "light";
+  setTheme(cur === "dark" ? "light" : "dark");
+});
+
+// Default theme spacing scale (rem). key -> rem value.
+const SPACE = {
+  "0": "0", "px": "1px", "0.5": "0.125rem", "1": "0.25rem", "1.5": "0.375rem",
+  "2": "0.5rem", "2.5": "0.625rem", "3": "0.75rem", "3.5": "0.875rem", "4": "1rem",
+  "5": "1.25rem", "6": "1.5rem", "7": "1.75rem", "8": "2rem", "9": "2.25rem",
+  "10": "2.5rem", "11": "2.75rem", "12": "3rem", "14": "3.5rem", "16": "4rem",
+  "20": "5rem", "24": "6rem", "28": "7rem", "32": "8rem", "36": "9rem",
+  "40": "10rem", "44": "11rem", "48": "12rem", "52": "13rem", "56": "14rem",
+  "60": "15rem", "64": "16rem", "72": "18rem", "80": "20rem", "96": "24rem"
+};
+
+// Sizing fractions and keywords
+const SIZE_KEY = {
+  "auto": "auto", "full": "100%", "screen": "SCREEN", "min": "min-content",
+  "max": "max-content", "fit": "fit-content",
+  "1/2": "50%", "1/3": "33.333333%", "2/3": "66.666667%",
+  "1/4": "25%", "2/4": "50%", "3/4": "75%",
+  "1/5": "20%", "2/5": "40%", "3/5": "60%", "4/5": "80%",
+  "1/6": "16.666667%", "5/6": "83.333333%"
+};
+
+const FONT_SIZE = {
+  xs: ["0.75rem", "1rem"], sm: ["0.875rem", "1.25rem"], base: ["1rem", "1.5rem"],
+  lg: ["1.125rem", "1.75rem"], xl: ["1.25rem", "1.75rem"], "2xl": ["1.5rem", "2rem"],
+  "3xl": ["1.875rem", "2.25rem"], "4xl": ["2.25rem", "2.5rem"], "5xl": ["3rem", "1"],
+  "6xl": ["3.75rem", "1"], "7xl": ["4.5rem", "1"], "8xl": ["6rem", "1"], "9xl": ["8rem", "1"]
+};
+
+const FONT_WEIGHT = {
+  thin: "100", extralight: "200", light: "300", normal: "400", medium: "500",
+  semibold: "600", bold: "700", extrabold: "800", black: "900"
+};
+
+const RADIUS = {
+  none: "0", sm: "0.125rem", "": "0.25rem", md: "0.375rem", lg: "0.5rem",
+  xl: "0.75rem", "2xl": "1rem", "3xl": "1.5rem", full: "9999px"
+};
+
+const SHADOW = {
+  sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+  "": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+  md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+  lg: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+  xl: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+  "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+  inner: "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
+  none: "none"
+};
+
+// Default color palette (shade 50 to 950 where applicable).
+const PALETTE = {
+  white: "#ffffff", black: "#000000", transparent: "transparent", current: "currentColor",
+  slate: {50:"#f8fafc",100:"#f1f5f9",200:"#e2e8f0",300:"#cbd5e1",400:"#94a3b8",500:"#64748b",600:"#475569",700:"#334155",800:"#1e293b",900:"#0f172a",950:"#020617"},
+  gray: {50:"#f9fafb",100:"#f3f4f6",200:"#e5e7eb",300:"#d1d5db",400:"#9ca3af",500:"#6b7280",600:"#4b5563",700:"#374151",800:"#1f2937",900:"#111827",950:"#030712"},
+  zinc: {50:"#fafafa",100:"#f4f4f5",200:"#e4e4e7",300:"#d4d4d8",400:"#a1a1aa",500:"#71717a",600:"#52525b",700:"#3f3f46",800:"#27272a",900:"#18181b",950:"#09090b"},
+  red: {50:"#fef2f2",100:"#fee2e2",200:"#fecaca",300:"#fca5a5",400:"#f87171",500:"#ef4444",600:"#dc2626",700:"#b91c1c",800:"#991b1b",900:"#7f1d1d",950:"#450a0a"},
+  orange: {50:"#fff7ed",100:"#ffedd5",200:"#fed7aa",300:"#fdba74",400:"#fb923c",500:"#f97316",600:"#ea580c",700:"#c2410c",800:"#9a3412",900:"#7c2d12",950:"#431407"},
+  amber: {50:"#fffbeb",100:"#fef3c7",200:"#fde68a",300:"#fcd34d",400:"#fbbf24",500:"#f59e0b",600:"#d97706",700:"#b45309",800:"#92400e",900:"#78350f",950:"#451a03"},
+  yellow: {50:"#fefce8",100:"#fef9c3",200:"#fef08a",300:"#fde047",400:"#facc15",500:"#eab308",600:"#ca8a04",700:"#a16207",800:"#854d0e",900:"#713f12",950:"#422006"},
+  green: {50:"#f0fdf4",100:"#dcfce7",200:"#bbf7d0",300:"#86efac",400:"#4ade80",500:"#22c55e",600:"#16a34a",700:"#15803d",800:"#166534",900:"#14532d",950:"#052e16"},
+  emerald: {50:"#ecfdf5",100:"#d1fae5",200:"#a7f3d0",300:"#6ee7b7",400:"#34d399",500:"#10b981",600:"#059669",700:"#047857",800:"#065f46",900:"#064e3b",950:"#022c22"},
+  teal: {50:"#f0fdfa",100:"#ccfbf1",200:"#99f6e4",300:"#5eead4",400:"#2dd4bf",500:"#14b8a6",600:"#0d9488",700:"#0f766e",800:"#115e59",900:"#134e4a",950:"#042f2e"},
+  cyan: {50:"#ecfeff",100:"#cffafe",200:"#a5f3fc",300:"#67e8f9",400:"#22d3ee",500:"#06b6d4",600:"#0891b2",700:"#0e7490",800:"#155e75",900:"#164e63",950:"#083344"},
+  sky: {50:"#f0f9ff",100:"#e0f2fe",200:"#bae6fd",300:"#7dd3fc",400:"#38bdf8",500:"#0ea5e9",600:"#0284c7",700:"#0369a1",800:"#075985",900:"#0c4a6e",950:"#082f49"},
+  blue: {50:"#eff6ff",100:"#dbeafe",200:"#bfdbfe",300:"#93c5fd",400:"#60a5fa",500:"#3b82f6",600:"#2563eb",700:"#1d4ed8",800:"#1e40af",900:"#1e3a8a",950:"#172554"},
+  indigo: {50:"#eef2ff",100:"#e0e7ff",200:"#c7d2fe",300:"#a5b4fc",400:"#818cf8",500:"#6366f1",600:"#4f46e5",700:"#4338ca",800:"#3730a3",900:"#312e81",950:"#1e1b4b"},
+  violet: {50:"#f5f3ff",100:"#ede9fe",200:"#ddd6fe",300:"#c4b5fd",400:"#a78bfa",500:"#8b5cf6",600:"#7c3aed",700:"#6d28d9",800:"#5b21b6",900:"#4c1d95",950:"#2e1065"},
+  purple: {50:"#faf5ff",100:"#f3e8ff",200:"#e9d5ff",300:"#d8b4fe",400:"#c084fc",500:"#a855f7",600:"#9333ea",700:"#7e22ce",800:"#6b21a8",900:"#581c87",950:"#3b0764"},
+  pink: {50:"#fdf2f8",100:"#fce7f3",200:"#fbcfe8",300:"#f9a8d4",400:"#f472b6",500:"#ec4899",600:"#db2777",700:"#be185d",800:"#9d174d",900:"#831843",950:"#500724"},
+  rose: {50:"#fff1f2",100:"#ffe4e6",200:"#fecdd3",300:"#fda4af",400:"#fb7185",500:"#f43f5e",600:"#e11d48",700:"#be123c",800:"#9f1239",900:"#881337",950:"#4c0519"}
+};
+
+function colorValue(name) {
+  // name like "slate-800", "white", "red-500", "black"
+  if (PALETTE[name] && typeof PALETTE[name] === "string") return PALETTE[name];
+  const dash = name.lastIndexOf("-");
+  if (dash === -1) return null;
+  const fam = name.slice(0, dash);
+  const shade = name.slice(dash + 1);
+  if (PALETTE[fam] && typeof PALETTE[fam] === "object" && PALETTE[fam][shade]) {
+    return PALETTE[fam][shade];
+  }
+  return null;
+}
+
+const SIDES = {
+  "": ["margin"], t: ["margin-top"], b: ["margin-bottom"], l: ["margin-left"],
+  r: ["margin-right"], x: ["margin-left", "margin-right"], y: ["margin-top", "margin-bottom"]
+};
+
+function spacingDecls(prop, sideKey, val, negative) {
+  const base = prop === "m" ? "margin" : "padding";
+  const map = {
+    "": [base], t: [base + "-top"], b: [base + "-bottom"], l: [base + "-left"],
+    r: [base + "-right"], x: [base + "-left", base + "-right"], y: [base + "-top", base + "-bottom"]
+  };
+  const props = map[sideKey];
+  if (!props) return null;
+  let v = SPACE[val];
+  if (v === undefined) return null;
+  if (negative && v !== "0") v = "-" + v;
+  return props.map((p) => [p, v]);
+}
+
+// Convert one class to an array of [prop, value] declaration pairs, or null if unknown.
+function convertClass(cls) {
+  let c = cls;
+  let negative = false;
+  if (c.startsWith("-")) { negative = true; c = c.slice(1); }
+
+  // display
+  const DISPLAY = {
+    block: "block", "inline-block": "inline-block", inline: "inline", flex: "flex",
+    "inline-flex": "inline-flex", grid: "grid", "inline-grid": "inline-grid",
+    hidden: "none", table: "table", contents: "contents", "flow-root": "flow-root"
+  };
+  if (DISPLAY[c] !== undefined && !negative) return [["display", DISPLAY[c]]];
+
+  // position
+  if (["static","fixed","absolute","relative","sticky"].includes(c) && !negative) return [["position", c]];
+
+  // flex direction / wrap / helpers
+  const FLEX_MAP = {
+    "flex-row": ["flex-direction","row"], "flex-row-reverse": ["flex-direction","row-reverse"],
+    "flex-col": ["flex-direction","column"], "flex-col-reverse": ["flex-direction","column-reverse"],
+    "flex-wrap": ["flex-wrap","wrap"], "flex-nowrap": ["flex-wrap","nowrap"],
+    "flex-wrap-reverse": ["flex-wrap","wrap-reverse"],
+    "flex-1": ["flex","1 1 0%"], "flex-auto": ["flex","1 1 auto"],
+    "flex-initial": ["flex","0 1 auto"], "flex-none": ["flex","none"],
+    "grow": ["flex-grow","1"], "grow-0": ["flex-grow","0"],
+    "shrink": ["flex-shrink","1"], "shrink-0": ["flex-shrink","0"]
+  };
+  if (FLEX_MAP[c] && !negative) return [FLEX_MAP[c]];
+
+  // justify / align
+  const JUSTIFY = { start:"flex-start", end:"flex-end", center:"center", between:"space-between", around:"space-around", evenly:"space-evenly", stretch:"stretch" };
+  if (c.startsWith("justify-") && JUSTIFY[c.slice(8)]) return [["justify-content", JUSTIFY[c.slice(8)]]];
+  const ITEMS = { start:"flex-start", end:"flex-end", center:"center", baseline:"baseline", stretch:"stretch" };
+  if (c.startsWith("items-") && ITEMS[c.slice(6)]) return [["align-items", ITEMS[c.slice(6)]]];
+  const CONTENT = { start:"flex-start", end:"flex-end", center:"center", between:"space-between", around:"space-around", evenly:"space-evenly", stretch:"stretch" };
+  if (c.startsWith("content-") && CONTENT[c.slice(8)]) return [["align-content", CONTENT[c.slice(8)]]];
+  const SELF = { auto:"auto", start:"flex-start", end:"flex-end", center:"center", stretch:"stretch", baseline:"baseline" };
+  if (c.startsWith("self-") && SELF[c.slice(5)]) return [["align-self", SELF[c.slice(5)]]];
+
+  // grid cols / rows
+  let m;
+  if ((m = c.match(/^grid-cols-(\d+)$/))) return [["grid-template-columns", `repeat(${m[1]}, minmax(0, 1fr))`]];
+  if (c === "grid-cols-none") return [["grid-template-columns", "none"]];
+  if ((m = c.match(/^grid-rows-(\d+)$/))) return [["grid-template-rows", `repeat(${m[1]}, minmax(0, 1fr))`]];
+  if ((m = c.match(/^col-span-(\d+)$/))) return [["grid-column", `span ${m[1]} / span ${m[1]}`]];
+  if (c === "col-span-full") return [["grid-column", "1 / -1"]];
+  if ((m = c.match(/^row-span-(\d+)$/))) return [["grid-row", `span ${m[1]} / span ${m[1]}`]];
+
+  // gap
+  if ((m = c.match(/^gap-(.+)$/)) && SPACE[m[1]] !== undefined) return [["gap", SPACE[m[1]]]];
+  if ((m = c.match(/^gap-x-(.+)$/)) && SPACE[m[1]] !== undefined) return [["column-gap", SPACE[m[1]]]];
+  if ((m = c.match(/^gap-y-(.+)$/)) && SPACE[m[1]] !== undefined) return [["row-gap", SPACE[m[1]]]];
+
+  // spacing m/p
+  if ((m = c.match(/^([mp])([tblrxy]?)-(.+)$/))) {
+    const decls = spacingDecls(m[1], m[2], m[3], negative);
+    if (decls) return decls;
+  }
+
+  // sizing w / h
+  if ((m = c.match(/^w-(.+)$/))) {
+    const v = sizeValue(m[3] !== undefined ? m[3] : m[1], "w");
+    const raw = m[1];
+    const sv = sizeValue(raw, "w");
+    if (sv) return [["width", sv]];
+  }
+  if ((m = c.match(/^h-(.+)$/))) {
+    const sv = sizeValue(m[1], "h");
+    if (sv) return [["height", sv]];
+  }
+  if ((m = c.match(/^min-w-(.+)$/))) { const sv = sizeValue(m[1], "w"); if (sv) return [["min-width", sv]]; }
+  if ((m = c.match(/^max-w-(.+)$/))) { const sv = maxWidth(m[1]); if (sv) return [["max-width", sv]]; }
+  if ((m = c.match(/^min-h-(.+)$/))) { const sv = sizeValue(m[1], "h"); if (sv) return [["min-height", sv]]; }
+  if ((m = c.match(/^max-h-(.+)$/))) { const sv = sizeValue(m[1], "h"); if (sv) return [["max-height", sv]]; }
+
+  // typography size
+  if ((m = c.match(/^text-(.+)$/))) {
+    const key = m[1];
+    if (FONT_SIZE[key]) {
+      const [size, lh] = FONT_SIZE[key];
+      return [["font-size", size], ["line-height", lh]];
+    }
+    const align = { left:"left", center:"center", right:"right", justify:"justify" };
+    if (align[key]) return [["text-align", align[key]]];
+    // text color
+    const col = colorValue(key);
+    if (col) return [["color", col]];
+  }
+  // font weight
+  if (c.startsWith("font-") && FONT_WEIGHT[c.slice(5)]) return [["font-weight", FONT_WEIGHT[c.slice(5)]]];
+  if (c === "italic") return [["font-style", "italic"]];
+  if (c === "not-italic") return [["font-style", "normal"]];
+  if (c === "underline") return [["text-decoration-line", "underline"]];
+  if (c === "line-through") return [["text-decoration-line", "line-through"]];
+  if (c === "no-underline") return [["text-decoration-line", "none"]];
+  if (c === "uppercase") return [["text-transform", "uppercase"]];
+  if (c === "lowercase") return [["text-transform", "lowercase"]];
+  if (c === "capitalize") return [["text-transform", "capitalize"]];
+
+  // background color
+  if ((m = c.match(/^bg-(.+)$/))) {
+    const col = colorValue(m[1]);
+    if (col) return [["background-color", col]];
+  }
+
+  // border color and width
+  if (c === "border") return [["border-width", "1px"]];
+  if ((m = c.match(/^border-(\d+)$/))) return [["border-width", m[1] + "px"]];
+  if ((m = c.match(/^border-([tblrxy])-(\d+)$/))) {
+    const side = { t:"top", b:"bottom", l:"left", r:"right" }[m[2] ? m[1] : m[1]];
+    const s = { t:"border-top-width", b:"border-bottom-width", l:"border-left-width", r:"border-right-width" }[m[1]];
+    if (s) return [[s, m[2] + "px"]];
+  }
+  if ((m = c.match(/^border-([tblr])$/))) {
+    const s = { t:"border-top-width", b:"border-bottom-width", l:"border-left-width", r:"border-right-width" }[m[1]];
+    return [[s, "1px"]];
+  }
+  if ((m = c.match(/^border-(.+)$/))) {
+    const col = colorValue(m[1]);
+    if (col) return [["border-color", col]];
+    const style = { solid:"solid", dashed:"dashed", dotted:"dotted", double:"double", none:"none" };
+    if (style[m[1]]) return [["border-style", style[m[1]]]];
+  }
+
+  // rounded
+  if (c === "rounded") return [["border-radius", RADIUS[""]]];
+  if ((m = c.match(/^rounded-(.+)$/)) && RADIUS[m[1]] !== undefined) return [["border-radius", RADIUS[m[1]]]];
+
+  // shadow
+  if (c === "shadow") return [["box-shadow", SHADOW[""]]];
+  if ((m = c.match(/^shadow-(.+)$/)) && SHADOW[m[1]] !== undefined) return [["box-shadow", SHADOW[m[1]]]];
+
+  // opacity
+  if ((m = c.match(/^opacity-(\d+)$/))) return [["opacity", String(parseInt(m[1]) / 100)]];
+
+  // overflow
+  if ((m = c.match(/^overflow-(auto|hidden|visible|scroll|clip)$/))) return [["overflow", m[1]]];
+
+  return null;
+}
+
+function sizeValue(raw, dim) {
+  if (SPACE[raw] !== undefined) return SPACE[raw];
+  if (SIZE_KEY[raw]) {
+    if (SIZE_KEY[raw] === "SCREEN") return dim === "w" ? "100vw" : "100vh";
+    return SIZE_KEY[raw];
+  }
+  return null;
+}
+
+const MAXW = {
+  "0":"0rem", none:"none", xs:"20rem", sm:"24rem", md:"28rem", lg:"32rem", xl:"36rem",
+  "2xl":"42rem", "3xl":"48rem", "4xl":"56rem", "5xl":"64rem", "6xl":"72rem", "7xl":"80rem",
+  full:"100%", min:"min-content", max:"max-content", fit:"fit-content", prose:"65ch"
+};
+function maxWidth(raw) {
+  if (MAXW[raw]) return MAXW[raw];
+  return sizeValue(raw, "w");
+}
+
+function convert() {
+  $("error-box").innerHTML = "";
+  const raw = $("tw-input").value.trim();
+  if (!raw) {
+    showError("Paste one or more Tailwind classes to convert.");
+    return;
+  }
+  const tokens = raw.split(/\s+/).filter(Boolean);
+  const decls = [];
+  const unknown = [];
+  const seen = new Set();
+  for (const tok of tokens) {
+    // strip variant prefixes like hover: md: since plain CSS grouping cannot represent them here
+    let base = tok;
+    let hadVariant = false;
+    if (base.includes(":")) { hadVariant = true; base = base.split(":").pop(); }
+    const result = convertClass(base);
+    if (result) {
+      for (const [p, v] of result) {
+        const dkey = p;
+        // last write wins but keep order stable
+        const existing = decls.find((d) => d[0] === dkey);
+        if (existing) existing[1] = v;
+        else decls.push([p, v]);
+      }
+      if (hadVariant) unknown.push(tok + " (variant dropped, base mapped)");
+    } else {
+      unknown.push(tok);
+    }
+  }
+
+  if (decls.length === 0) {
+    showError("None of the classes were recognized. This tool covers common default-theme utilities.");
+    $("unknown-box").innerHTML = unknown.length
+      ? "Not recognized: " + unknown.map((u) => `<code>${escapeHtml(u)}</code>`).join(" ")
+      : "";
+    $("results").classList.add("show");
+    $("css-out").textContent = "/* nothing to output */";
+    return;
+  }
+
+  const lines = decls.map(([p, v]) => `  ${p}: ${v};`);
+  const css = ".converted {\n" + lines.join("\n") + "\n}";
+  $("css-out").textContent = css;
+
+  if (unknown.length) {
+    $("unknown-box").innerHTML = "Not mapped: " + unknown.map((u) => `<code>${escapeHtml(u)}</code>`).join(" ");
+  } else {
+    $("unknown-box").innerHTML = "";
+  }
+  $("results").classList.add("show");
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function showError(msg) {
+  $("error-box").innerHTML = `<div class="error-msg">${escapeHtml(msg)}</div>`;
+  $("results").classList.remove("show");
+}
+
+$("convert-btn").addEventListener("click", convert);
+
+$("copy-btn").addEventListener("click", async () => {
+  const text = $("css-out").textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    const b = $("copy-btn");
+    b.textContent = "Copied";
+    b.classList.add("copied");
+    setTimeout(() => { b.textContent = "Copy"; b.classList.remove("copied"); }, 1400);
+  } catch (e) {
+    showError("Copy failed. Select the text and copy manually.");
+  }
+});
+
+$("sample-btn").addEventListener("click", () => {
+  $("tw-input").value = "flex items-center justify-between gap-4 p-6 w-full max-w-lg bg-slate-800 text-white text-lg font-semibold rounded-lg shadow-md border border-slate-700";
+  convert();
+});
+
+$("clear-btn").addEventListener("click", () => {
+  $("tw-input").value = "";
+  $("results").classList.remove("show");
+  $("error-box").innerHTML = "";
+});
+
+$("tw-input").addEventListener("keydown", (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") convert();
+});
+
+setTheme("light");
+</script>
+</body>
+</html>
