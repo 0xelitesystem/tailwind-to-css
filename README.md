@@ -23,6 +23,10 @@ Each class in your input is parsed and matched against a lookup of common Tailwi
 
 Everything runs in your browser. Your input, the parsing, and the output never leave your machine. There are no external requests, no analytics, and no tracking. Open the page source or the network tab to confirm.
 
+## More
+
+Part of a catalog of single-file browser tools and plain-language references, all MIT licensed and dependency-free: [0xelitesystem.github.io](https://0xelitesystem.github.io/). Built by [elitesystem.ai](https://elitesystem.ai).
+
 ## License
 
 MIT. Copyright 0xelitesystem 2026.
