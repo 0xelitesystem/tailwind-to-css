@@ -2,9 +2,17 @@
 
 Paste a string of Tailwind utility classes and get the equivalent plain CSS, grouped into a single rule. It covers a solid set of common utilities using the default theme values. It is honest about scope: this maps common utilities with the default theme, not every plugin, variant, or custom config.
 
-## Live demo
+**Live demo:** https://0xelitesystem.github.io/tailwind-to-css/
 
-https://0xelitesystem.github.io/tailwind-to-css/
+## Use
+
+1. Paste Tailwind classes into the input, or click Load sample.
+2. Click Convert, or press Ctrl or Cmd plus Enter.
+3. Read the generated CSS rule and the list of classes it did not recognize, then click Copy.
+
+## Why this exists
+
+Sometimes you need the plain CSS behind a set of Tailwind classes: for an email template, for a project without Tailwind, or to learn what a class actually does. This tool maps common utilities in one HTML file with no build, no tracking, and no network calls, released under the MIT license.
 
 ## Features
 
@@ -22,6 +30,21 @@ Each class in your input is parsed and matched against a lookup of common Tailwi
 ## Privacy
 
 Everything runs in your browser. Your input, the parsing, and the output never leave your machine. There are no external requests, no analytics, and no tracking. Open the page source or the network tab to confirm.
+
+If you use the theme toggle, your light or dark choice is saved in your browser's localStorage under the key `theme`. Nothing else is stored.
+
+## Run locally
+
+```
+git clone https://github.com/0xelitesystem/tailwind-to-css
+cd tailwind-to-css
+```
+
+Open `index.html` in a browser, or serve the folder with `python -m http.server` and visit http://localhost:8000.
+
+## Build
+
+No build step. The whole tool is one `index.html` file.
 
 ## More
 
