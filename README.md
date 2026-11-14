@@ -1,8 +1,8 @@
-# Tailwind to CSS
+# Utility Classes to CSS
 
 Paste a string of Tailwind utility classes and get the equivalent plain CSS, grouped into a single rule. It covers a solid set of common utilities using the default theme values. It is honest about scope: this maps common utilities with the default theme, not every plugin, variant, or custom config.
 
-**Live demo:** https://0xelitesystem.github.io/tailwind-to-css/
+**Live demo:** https://0xelitesystem.github.io/utility-classes-to-css/
 
 ## Use
 
@@ -36,8 +36,8 @@ If you use the theme toggle, your light or dark choice is saved in your browser'
 ## Run locally
 
 ```
-git clone https://github.com/0xelitesystem/tailwind-to-css
-cd tailwind-to-css
+git clone https://github.com/0xelitesystem/utility-classes-to-css
+cd utility-classes-to-css
 ```
 
 Open `index.html` in a browser, or serve the folder with `python -m http.server` and visit http://localhost:8000.
